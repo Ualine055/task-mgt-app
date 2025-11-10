@@ -114,7 +114,7 @@ firebase-crud-task-app/
 
 ## Deployment
 
-🚀 **Live Application**: [ Vercel Deployment Link](https://your-app-name.vercel.app)
+🚀 **Live Application**: [ Vercel Deployment Link](https://task-mgt-app-gdn8-5i9s7fvzx-ualine055-5515s-projects.vercel.app)
 
 ## Screenshots
 
