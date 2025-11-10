@@ -11,7 +11,7 @@ export type Task = {
 };
 
 export type AuthContextType = {
-  user: User | null;
+  user: User | null | undefined;
   loading: boolean;
   logout: () => Promise<void>;
 };

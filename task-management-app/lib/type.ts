@@ -1,3 +1,5 @@
+import { User } from "firebase/auth";
+
 export interface Task {
   id: string;
   title: string;
@@ -9,7 +11,7 @@ export interface Task {
 }
 
 export interface AuthContextType {
-  user: any;
+  user: User | null | undefined;
   loading: boolean;
   logout: () => Promise<void>;
 }
