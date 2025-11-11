@@ -2,119 +2,114 @@
 
 ## Description
 
-A protected CRUD application built with Next.js, TypeScript, Firebase Authentication, and Firestore. This app demonstrates a complete authentication and task management system where users can register, log in, and manage their personal tasks with full create, read, update, and delete functionality.
+A protected CRUD app built with Next.js (App Router) + TypeScript, Firebase Authentication, and Firestore. Authenticated users can create, read, update, and delete their own tasks. The dashboard greets the user by email and all operations run against Firestore.
 
 ## Technologies Used
 
-- **Next.js** - React framework for production
-- **TypeScript** - Type-safe JavaScript
-- **Firebase Authentication** - Secure user authentication with email/password
-- **Firestore Database** - Real-time NoSQL database for task storage
-- **Tailwind CSS** - Utility-first CSS framework
-- **shadcn/ui** - High-quality React components
+- Next.js (App Router) + TypeScript
+- Firebase Authentication
+- Cloud Firestore
+- Tailwind CSS
 
 ## Features
 
-✨ **Firebase Authentication**
-- User registration with email and password
-- Secure login and logout functionality
-- Email-based user management
-
-🔐 **Protected Routes**
-- Dashboard only accessible to authenticated users
-- Automatic redirection to login for unauthorized access
-- Session management using Firebase Auth State
-
-📝 **CRUD Operations**
-- **Create**: Add new tasks with title, description, and priority
-- **Read**: View all your tasks in a dynamic task list
-- **Update**: Edit task details and mark tasks as completed
-- **Delete**: Remove tasks from the system
-
-👋 **Personalized Dashboard Greeting**
-- Greeting message with user's name and email
-- Real-time task count display
-- Task management interface
+- Firebase Authentication (Email/Password)
+- Protected Routes (dashboard only for logged-in users)
+- CRUD Operations (Tasks in Firestore)
+- Personalized Dashboard Greeting (Hello, user@email)
 
 ## Setup Instructions
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
-- A Firebase project
+### Setup Instructions
 
-### Installation
+1) Clone the repository
+```bash
+git clone https://github.com/Ualine055/task-mgt-app.git
+cd task-mgt-app/task-management-app
+```
 
-1. **Clone the repository**
-   \`\`\`bash
-   git clone https://github.com/Ualine055/task-mgt-app.git
-   cd firebase-crud-task-app
-   \`\`\`
+2) Install dependencies
+```bash
+npm install
+```
 
-2. **Install dependencies**
-   \`\`\`bash
-   npm install
-   \`\`\`
+3) Firebase configuration
+- Create a Firebase project and enable:
+  - Authentication: Email/Password provider
+  - Firestore Database
+- Add a Web App in Firebase console and copy the config.
+- Provide these env vars (create `.env.local` at project root `task-management-app/`):
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=...
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
+NEXT_PUBLIC_FIREBASE_APP_ID=...
+```
 
-3. **Add your Firebase config in firebase.ts**
-   - Create a `firebase.ts` file in the root directory
-   - Add your Firebase configuration from Firebase Console:
-   \`\`\`typescript
-   import { initializeApp } from 'firebase/app';
-   import { getAuth } from 'firebase/auth';
-   import { getFirestore } from 'firebase/firestore';
+4) Run the app
+```bash
+npm run dev
+# open http://localhost:3000 (or the printed port)
+```
 
-   const firebaseConfig = {
-     apiKey: "YOUR_API_KEY",
-     authDomain: "YOUR_AUTH_DOMAIN",
-     projectId: "YOUR_PROJECT_ID",
-     storageBucket: "YOUR_STORAGE_BUCKET",
-     messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-     appId: "YOUR_APP_ID"
-   };
+## Project Structure (key files)
 
-   const app = initializeApp(firebaseConfig);
-   export const auth = getAuth(app);
-   export const db = getFirestore(app);
-   \`\`\`
+- `app/login/page.tsx` — Login page
+- `app/register/page.tsx` — Register page
+- `app/page.tsx` — Protected Dashboard (TaskForm + TaskList)
+- `contexts/AuthContext.tsx` — Auth provider using `useAuthState`
+- `lib/firebase.ts` — Firebase app, `auth`, and `db` setup
+- `lib/types.ts` — Task and Auth context types
+- `components/TaskForm.tsx` — Create/Edit task form
+- `components/TaskList.tsx` — Task list with complete/edit/delete
 
-4. **Run the development server**
-   \`\`\`bash
-   npm run dev
-   \`\`\`
+## Project Structure (full)
 
-5. **Open your browser**
-   - Navigate to `http://localhost:3000`
+```
+task-mgt-app/
+├─ README.md                      # Root README (this file)
+└─ task-management-app/
+   ├─ .env.local                  # Firebase env vars (not committed)
+   ├─ .gitignore
+   ├─ next.config.ts
+   ├─ package.json
+   ├─ package-lock.json
+   ├─ postcss.config.mjs
+   ├─ tsconfig.json
+   ├─ eslint.config.mjs
+   ├─ next-env.d.ts
+   ├─ middleware.ts               # (Deprecated middleware; optional to migrate later)
+   ├─ public/
+   │  └─ ...                      # Static assets (favicons, screenshots, etc.)
+   ├─ app/
+   │  ├─ globals.css
+   │  ├─ layout.tsx               # Wraps app with AuthProvider
+   │  ├─ page.tsx                 # Dashboard (protected)
+   │  ├─ login/
+   │  │  └─ page.tsx              # Login page
+   │  └─ register/
+   │     └─ page.tsx              # Register page
+   ├─ components/
+   │  ├─ TaskForm.tsx             # Create/Edit form
+   │  └─ TaskList.tsx             # List + toggle/edit/delete
+   ├─ contexts/
+   │  └─ AuthContext.tsx          # Auth provider (react-firebase-hooks)
+   └─ lib/
+      ├─ firebase.ts              # Firebase app, auth, db (validated via env)
+      └─ types.ts                 # Task and Auth context types
+```
 
-## Project Structure
+## Deployment (Vercel)
 
-\`\`\`
-firebase-crud-task-app/
-├── app/
-│   ├── layout.tsx           # Root layout
-│   ├── page.tsx             # Dashboard page
-│   ├── login/
-│   │   └── page.tsx         # Login page
-│   ├── register/
-│   │   └── page.tsx         # Registration page
-│   └── globals.css          # Global styles
-├── components/
-│   ├── TaskForm.tsx         # Form for creating/editing tasks
-│   ├── TaskList.tsx         # Display tasks
-├── contexts/
-│   └── AuthContext.tsx      # Custom hook for auth state
-├── lib/
-│   └── firebase.ts          # Firebase configuration
-|   ├── type.ts
-|   └── types.ts
-├── firebase.ts              # Firebase config (create this)
-└── package.json
-\`\`\`
+1. Push to GitHub (env vars are not committed)
+2. Create a new Vercel project from this repo
+3. Set Root Directory to `task-management-app`
+4. In Vercel Project Settings → Environment Variables, add the Firebase vars above
+5. Deploy
 
-
-## Deployment
-
-🚀 **Live Application**: [ Vercel Deployment Link](https://task-mgt-app-gdn8-5i9s7fvzx-ualine055-5515s-projects.vercel.app)
+🚀 **Live Application**: [Vercel Deployment Link](https://task-mgt-app-gdn8-5i9s7fvzx-ualine055-5515s-projects.vercel.app)
 
 ## Screenshots
 
@@ -125,4 +120,11 @@ firebase-crud-task-app/
 ![Dashboard](/task-management-app/app/assets/dashboard.PNG)
 
 ### Create Account Page
-![Create Acoount Page](/task-management-app/app/assets/register.PNG)
+![Create Account Page](/task-management-app/app/assets/register.PNG)
+
+## Testing Credentials (for evaluation)
+
+- Email: `testuser@gmail.com`
+- Password: `test1234`
+
+Ensure this account exists in Firebase Authentication and has one or two tasks in Firestore for demonstration.
