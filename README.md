@@ -109,7 +109,7 @@ task-mgt-app/
 4. In Vercel Project Settings → Environment Variables, add the Firebase vars above
 5. Deploy
 
-🚀 **Live Application**: [Vercel Deployment Link](https://task-mgt-app-gdn8-5i9s7fvzx-ualine055-5515s-projects.vercel.app)
+ **Live Application**: [Vercel Deployment Link](task-mgt-app-gdn8.vercel.app)
 
 ## Screenshots
 
